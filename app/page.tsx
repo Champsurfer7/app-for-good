@@ -3,89 +3,133 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { auth } from '../utils/firebase'; // Import your Firebase engine
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore'; // Import the database tools
-
-// Initialize the database
-const db = getFirestore(auth.app);
+// Firebase temporarily disabled for local design preview
 
 export default function Home() {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [subEmail, setSubEmail] = useState("");
-  const [subMessage, setSubMessage] = useState("");
-
-  // Function to save a subscriber's email
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      // Save the email to the 'subscribers' collection in Firestore
-      await addDoc(collection(db, "subscribers"), {
-        email: subEmail,
-        subscribedAt: new Date()
-      });
-      setSubMessage("Thank you for subscribing! We will be in touch.");
-      setSubEmail(""); // Clear the box
-    } catch (error: any) {
-      setSubMessage("Error: " + error.message);
-    }
-  };
+ 
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-b from-blue-50 to-white">
-      {/* Hero Section */}
-      <div className="max-w-3xl text-center space-y-8 mb-24">
-        <h1 className="text-6xl font-extrabold text-gray-900 tracking-tight">
-          Build a Better Tomorrow
+    <main className="min-h-screen bg-gradient-to-b from-[#1E1B4B] via-[#312E81] to-[#1E1B4B] text-white">
+      
+      {/* ────────── HERO ────────── */}
+      <section className="max-w-4xl mx-auto px-6 pt-24 pb-16 text-center">
+        <div className="text-6xl mb-4">💎</div>
+        <h1 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] bg-clip-text text-transparent">
+          App For Good
         </h1>
-        <p className="text-2xl text-gray-600 leading-relaxed">
-          A space dedicated to helping you grow, heal, and become the best version of yourself. One step at a time.
+        <p className="mt-4 text-xl text-[#C4B5FD] max-w-2xl mx-auto leading-relaxed">
+          A suite of free, open‑source tools built to help people, developers, and communities — one project at a time.
         </p>
-
-        <div className="flex gap-6 justify-center pt-4">
-          <Link href="/login">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300
-shadow-lg hover:shadow-xl">
-              Join the Community
-            </button>
-          </Link>
-
+        <p className="mt-2 text-sm text-[#818CF8] italic">
+          “What we build together lives forever...”
+        </p>
+        <div className="mt-8 flex gap-4 justify-center flex-wrap">
           <Link href="/blog">
-            <button className="bg-white hover:bg-gray-50 text-gray-800 font-bold py-4 px-8 rounded-xl text-lg border-2 border-gray-200
-transition-all duration-300">
-              Read the Blog
-            </button>
+            <span className="inline-block bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-bold py-3 px-8 rounded-xl text-lg transition cursor-pointer">
+              📖 Read the Blog
+            </span>
           </Link>
+          <a href="https://repocraft.puter.site" target="_blank" rel="noopener noreferrer">
+            <span className="inline-block bg-[#EC4899] hover:bg-[#DB2777] text-white font-bold py-3 px-8 rounded-xl text-lg transition cursor-pointer">
+              🚀 Try RepoCraft
+            </span>
+          </a>
         </div>
-      </div>
+      </section>
 
-      {/* Newsletter Subscribe Section - NEW! */}
-      <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg border border-gray-100 text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Stay Encouraged</h2>
-        <p className="text-gray-600 mb-6">Subscribe to receive updates, stories, and guidance directly to your inbox.</p>
+      {/* ────────── PROJECT CARDS ────────── */}
+      <section className="max-w-5xl mx-auto px-6 pb-20">
+        <h2 className="text-3xl font-bold text-center text-[#E0E7FF] mb-10">✨ Our Projects</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          
+          {/* RepoCraft Card */}
+          <div className="bg-[#3730A3] rounded-2xl p-8 shadow-xl hover:shadow-2xl transition border border-[#4C1D95]">
+            <div className="text-4xl mb-3">💎</div>
+            <h3 className="text-2xl font-bold">RepoCraft</h3>
+            <p className="text-[#C4B5FD] mt-2 leading-relaxed">
+              From Zero to GitHub in 60 seconds — no command line required. Create professional projects from templates and push to GitHub with one click.
+            </p>
+            <div className="mt-5 flex gap-3 flex-wrap">
+              <a href="https://repocraft.puter.site" target="_blank" rel="noopener noreferrer">
+                <span className="inline-block bg-[#EC4899] hover:bg-[#DB2777] text-white font-semibold py-2 px-5 rounded-lg text-sm transition cursor-pointer">
+                  🌐 Visit Site
+                </span>
+              </a>
+              <a href="https://github.com/TBD-AmazingGlobalSolutions/RepoCraft" target="_blank" rel="noopener noreferrer">
+                <span className="inline-block bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-semibold py-2 px-5 rounded-lg text-sm transition cursor-pointer">
+                  ⭐ GitHub
+                </span>
+              </a>
+            </div>
+          </div>
 
-        <form onSubmit={handleSubscribe} className="space-y-4">
-          <input
-            type="email"
-            required
-            value={subEmail}
-            onChange={(e) => setSubEmail(e.target.value)}
-            className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
-            placeholder="Enter your email"
-          />
-          <button
-            type="submit"
-            className="w-full py-3 text-white bg-green-600 rounded-lg hover:bg-green-700 font-bold transition duration-300 shadow-md"
-          >
-            Subscribe
-          </button>
-        </form>
+          {/* Future Project Placeholder */}
+          <div className="bg-[#1E1B4B] rounded-2xl p-8 border-2 border-dashed border-[#4C1D95] flex flex-col items-center justify-center text-center">
+            <div className="text-5xl mb-3">🔮</div>
+            <h3 className="text-xl font-bold text-[#A78BFA]">Coming Soon</h3>
+            <p className="text-[#818CF8] mt-2">
+              More free tools are on the way. Stay tuned via the blog or newsletter below.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        {subMessage && (
-          <p className="mt-4 text-sm text-green-600 font-medium">{subMessage}</p>
-        )}
-      </div>
+      {/* ────────── ABOUT WARREN ────────── */}
+      <section className="bg-[#1E1B4B] py-16">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold text-[#E0E7FF] mb-6">💎 About the Builder</h2>
+          <p className="text-[#C4B5FD] leading-relaxed text-lg">
+            I’m <span className="text-[#EC4899] font-bold">Warren Champion</span>, a developer from Durban, South Africa. 
+            I build these tools in memory of my mother Zenda, my father Eugene and my wife Marilyn. 
+            Every project here is part of a legacy I’m creating for my son, who dreams of becoming a chef.
+          </p>
+          <p className="text-[#818CF8] italic mt-4">
+            “What we build together lives forever...”
+          </p>
+        </div>
+      </section>
+
+      {/* ────────── SUPPORT BANNER ────────── */}
+      <section className="py-12">
+        <div className="max-w-2xl mx-auto px-6 bg-[#312E81] rounded-2xl p-8 text-center shadow-xl">
+          <h2 className="text-2xl font-bold text-white mb-2">💝 Support This Project</h2>
+          <p className="text-[#C4B5FD] mb-6">Every contribution helps me build more free tools and support my son’s future.</p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <a href="https://ko-fi.com/champsurfer" target="_blank" rel="noopener noreferrer">
+              <span className="inline-block bg-[#EC4899] hover:bg-[#DB2777] text-white font-bold py-3 px-8 rounded-xl text-lg transition cursor-pointer">
+                ☕ Buy Me a Ko‑fi
+              </span>
+            </a>
+            <a href="https://www.paypal.com/paypalme/champsurfer" target="_blank" rel="noopener noreferrer">
+              <span className="inline-block bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-bold py-3 px-8 rounded-xl text-lg transition cursor-pointer">
+                💳 PayPal
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ────────── NEWSLETTER ────────── */}
+      <section className="py-16 bg-[#1E1B4B]">
+        <div className="max-w-md mx-auto px-6 text-center">
+          <h2 className="text-2xl font-bold text-white mb-2">📬 Stay Updated</h2>
+          <p className="text-[#C4B5FD] mb-6">
+            Subscribe to hear about new projects, templates, and updates.
+          </p>
+          <div className="text-center">
+            <p className="text-[#C4B5FD] mb-4">Newsletter coming soon.</p>
+            <p className="text-sm text-[#818CF8]">We'll be adding email updates later.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ────────── FOOTER ────────── */}
+      <footer className="py-8 text-center text-[#818CF8] text-sm border-t border-[#312E81]">
+        <p>© {new Date().getFullYear()} Warren Champion | Amazing Global Solutions</p>
+        <p className="mt-1">Built with ❤️ in Durban, South Africa</p>
+        <p className="mt-2 italic">“What we build together lives forever...” 💎</p>
+      </footer>
+
     </main>
   );
 }
