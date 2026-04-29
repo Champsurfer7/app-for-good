@@ -124,7 +124,15 @@ export default function Home() {
       {/* ────────── SUPPORT BANNER ────────── */}
       <section className="py-12">
         <div className="max-w-2xl mx-auto px-6 bg-[#312E81] rounded-2xl p-8 text-center shadow-xl">
-          <h2 className="text-2xl font-bold text-white mb-2">💝 Support This Project</h2>
+                    {/* GitHub Sponsor Card */}
+          <div className="mb-6 flex justify-center">
+            <iframe src="https://github.com/sponsors/Champsurfer7/card" 
+                    title="Sponsor Champsurfer7" 
+                    height="225" width="600" 
+                    style={{ border: '0', borderRadius: '12px' }}>
+            </iframe>
+          </div>
+	<h2 className="text-2xl font-bold text-white mb-2">💝 Support This Project</h2>
           <p className="text-[#C4B5FD] mb-6">Every contribution helps me build more free tools and support my son’s future.</p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a href="https://ko-fi.com/champsurfer" target="_blank" rel="noopener noreferrer">
@@ -132,11 +140,14 @@ export default function Home() {
                 ☕ Buy Me a Ko‑fi
               </span>
             </a>
-            <a href="https://www.paypal.com/paypalme/champsurfer" target="_blank" rel="noopener noreferrer">
-              <span className="inline-block bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-bold py-3 px-8 rounded-xl text-lg transition cursor-pointer">
-                💳 PayPal
-              </span>
-            </a>
+                        <div>
+              <style>{`.pp-EUKMUZENATT26{text-align:center;border:none;border-radius:1.5rem;min-width:11.625rem;padding:0 2rem;height:2.625rem;font-weight:bold;background-color:#FFD140;color:#000000;font-family:"Helvetica Neue",Arial,sans-serif;font-size:1rem;line-height:1.25rem;cursor:pointer;}`}</style>
+              <form action="https://www.paypal.com/ncp/payment/EUKMUZENATT26" method="post" target="_blank" style="display:inline-grid;justify-items:center;align-content:start;gap:0.5rem;">
+                <input class="pp-EUKMUZENATT26" type="submit" value="Contribute Here" />
+                <img src="https://www.paypalobjects.com/images/Debit_Credit_APM.svg" alt="cards" />
+                <section style="font-size: 0.75rem;"> Powered by <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-wordmark-color.svg" alt="paypal" style="height:0.875rem;vertical-align:middle;"/></section>
+              </form>
+            </div>
           </div>
         </div>
       </section>
@@ -149,14 +160,14 @@ export default function Home() {
             Subscribe to hear about new projects, templates, and updates.
           </p>
           <form onSubmit={handleSubscribe} className="space-y-4">
-            <input
-              type="email"
-              required
-              value={subEmail}
-              onChange={(e) => setSubEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-[#4C1D95] rounded-lg bg-[#0F0A2E] text-white placeholder-[#818CF8] focus:outline-none focus:ring-2 focus:ring-[#EC4899]"
-              placeholder="Enter your email"
-            />
+           <input
+  type="email"
+  required
+  value={subEmail}
+  onChange={(e) => setSubEmail(e.target.value)}
+  className="w-full px-4 py-3 border border-[#4C1D95] rounded-lg bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#EC4899]"
+  placeholder="Enter your email"
+/>
             <button
               type="submit"
               className="w-full py-3 text-white bg-[#059669] rounded-lg hover:bg-[#047857] font-bold transition duration-300 shadow-md"
@@ -179,4 +190,4 @@ export default function Home() {
 
     </main>
   );
-}
+      }
