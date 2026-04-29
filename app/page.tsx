@@ -3,9 +3,41 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-// Firebase temporarily disabled for local design preview
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+};
+
+// Initialize Firebase & Firestore only on client side
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export default function Home() {
+  const [subEmail, setSubEmail] = useState("");
+  const [subMessage, setSubMessage] = useState("");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await addDoc(collection(db, "subscribers"), {
+        email: subEmail,
+        subscribedAt: new Date()
+      });
+      setSubMessage("Thank you for subscribing! We will be in touch.");
+      setSubEmail("");
+    } catch (error: any) {
+      setSubMessage("Error: " + error.message);
+    }
+  };
+
+  // ... rest of the component remains the same
  
 
   return (
@@ -109,17 +141,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ────────── NEWSLETTER ────────── */}
+      {/* ────────── NEWSLETTER (functional) ────────── */}
       <section className="py-16 bg-[#1E1B4B]">
         <div className="max-w-md mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold text-white mb-2">📬 Stay Updated</h2>
           <p className="text-[#C4B5FD] mb-6">
             Subscribe to hear about new projects, templates, and updates.
           </p>
-          <div className="text-center">
-            <p className="text-[#C4B5FD] mb-4">Newsletter coming soon.</p>
-            <p className="text-sm text-[#818CF8]">We'll be adding email updates later.</p>
-          </div>
+          <form onSubmit={handleSubscribe} className="space-y-4">
+            <input
+              type="email"
+              required
+              value={subEmail}
+              onChange={(e) => setSubEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-[#4C1D95] rounded-lg bg-[#0F0A2E] text-white placeholder-[#818CF8] focus:outline-none focus:ring-2 focus:ring-[#EC4899]"
+              placeholder="Enter your email"
+            />
+            <button
+              type="submit"
+              className="w-full py-3 text-white bg-[#059669] rounded-lg hover:bg-[#047857] font-bold transition duration-300 shadow-md"
+            >
+              Subscribe
+            </button>
+          </form>
+          {subMessage && (
+            <p className="mt-4 text-sm text-[#34D399] font-medium">{subMessage}</p>
+          )}
         </div>
       </section>
 
